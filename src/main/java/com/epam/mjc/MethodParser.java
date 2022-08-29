@@ -1,5 +1,7 @@
 package com.epam.mjc;
 
+import java.util.*;
+
 public class MethodParser {
 
     /**
@@ -20,6 +22,46 @@ public class MethodParser {
      * @return {@link MethodSignature} object filled with parsed values from source string
      */
     public MethodSignature parseFunction(String signatureString) {
-        throw new UnsupportedOperationException("You should implement this method.");
+        signatureString = "private int sum(int x, String str, double d)";
+        StringTokenizer st = new StringTokenizer(signatureString, " ");
+        String[] str = signatureString.split("\\(");
+        String[] modif = str[0].split(" ");
+        String accessModifier = null;
+        String returnType = null;
+        String methodName = null;
+
+        if(modif.length == 3){
+            accessModifier = modif[0];
+            returnType = modif[1];
+            methodName = modif[2];
+        }else if (modif.length == 2){
+            accessModifier = null;
+            returnType = modif[0];
+            methodName = modif[1];
+        }
+
+        StringTokenizer token = new StringTokenizer(signatureString, "()");
+        List<String> parameters = new ArrayList<>();
+        while(token.hasMoreTokens()){
+            parameters.add(token.nextToken());
+        }
+        parameters.remove(0);
+        String[] s = parameters.get(0).split(",");
+        Map<String, String> map = new HashMap<>();
+
+        for(int i = 0; i < s.length; i++){
+            String[] par = s[i].split(" ");
+            if(i == 0){
+                map.put(par[0], par[1]);
+            }else{
+                map.put(par[1], par[2]);
+            }
+        }
+        List<MethodSignature.Argument> argumentList = new ArrayList<>();
+
+
+        return new MethodSignature(
+                null
+        );
     }
 }
